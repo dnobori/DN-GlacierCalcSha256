@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
@@ -75,15 +76,17 @@ namespace ExampleTreeHash
 
                 if (args.Length >= 4)
                 {
-                    fn_start = Path.GetFileNameWithoutExtension(args[2]);
-                    fn_end = Path.GetFileName(args[3]);
+                    fn_start = Path.GetFileNameWithoutExtension(args[2]).ToLowerInvariant();
+                    fn_end = Path.GetFileName(args[3]).ToLowerInvariant();
                 }
 
                 string[] files = Directory.GetFiles(path, pattern, SearchOption.TopDirectoryOnly);
 
+                Array.Sort(files, CaseInsensitiveComparer.DefaultInvariant);
+
                 foreach (string fn in files)
                 {
-                    string fn2 = Path.GetFileNameWithoutExtension(fn);
+                    string fn2 = Path.GetFileNameWithoutExtension(fn).ToLowerInvariant();
 
                     bool ok = true;
 
